@@ -19,6 +19,7 @@ public class HighlightOnMouseOver : MonoBehaviour {
     void OnMouseEnter() {
         if (slotIsAvailable) highlight.SetActive(true);
         }
+
     void OnMouseExit() {
         highlight.SetActive(false);
         }

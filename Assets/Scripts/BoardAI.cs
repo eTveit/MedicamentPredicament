@@ -19,12 +19,7 @@ public class BoardAI : MonoBehaviour {
     public GameObject workerPrefab;
 
     // Use this for initialization
-    void Start() {/*
-        workers[0] = this.GetComponent<Logistics>();
-        workers[1] = this.GetComponent<Production>();
-        workers[2] = this.GetComponent<Storage>();
-        workers[3] = this.GetComponent<Shipping>();*/
-
+    void Start() {
         GameObject w1 = HireWorker("Logistics");
         GameObject w2 = HireWorker("Production");
         GameObject w3 = HireWorker("Shipping");

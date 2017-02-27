@@ -18,9 +18,13 @@ public class BoardAI : MonoBehaviour {
     public Transform[] resourceSlots;
     public GameObject workerPrefab;
 
-
     // Use this for initialization
-    void Start() {
+    void Start() {/*
+        workers[0] = this.GetComponent<Logistics>();
+        workers[1] = this.GetComponent<Production>();
+        workers[2] = this.GetComponent<Storage>();
+        workers[3] = this.GetComponent<Shipping>();*/
+
         GameObject w1 = HireWorker("Logistics");
         GameObject w2 = HireWorker("Production");
         GameObject w3 = HireWorker("Shipping");
@@ -51,7 +55,7 @@ public class BoardAI : MonoBehaviour {
             ReturnWorkersFromProject("work");
             }
         if (Input.GetKeyDown(KeyCode.R)) {
-            print("resurs");
+            print("resource");
             ReturnWorkersFromResource();
             }
         }
@@ -94,29 +98,30 @@ public class BoardAI : MonoBehaviour {
             if (resourceSlots[i].GetComponent<WorkerSlot>().slottedWorker != null) {
                 string type = resourceSlots[i].GetComponent<WorkerSlot>().GetWorkerType();
                 resourceSlots[i].GetComponent<WorkerSlot>().slottedWorker.transform.SetParent(FindParentSlot(type));
+                Worker recourceReciever = FindWorkerPlayer(type);
+                GiveResource(i, recourceReciever);
                 resourceSlots[i].GetComponent<WorkerSlot>().slottedWorker = null;
-                //GiveResource(i, resourceSlots[i].GetComponent<WorkerSlot>().slottedWorker);
                 }
             }
         }
 
-    void GiveResource(int i, GameObject worker) {
+    void GiveResource(int i, Worker worker) {
         switch (i) {
             case 0:
             case 1:
-                worker.GetComponent<Worker>().happiness += 1;
+                worker.happiness += 1;
                 break;
             case 2:
             case 3:
-                worker.GetComponent<Worker>().energy += 1;
+                worker.energy += 1;
                 break;
             case 4:
             case 5:
-                worker.GetComponent<Worker>().influence += 1;
+                worker.influence += 1;
                 break;
             case 6:
             case 7:
-                worker.GetComponent<Worker>().money += 1;
+                worker.money += 1;
                 break;
             }
         }
@@ -146,6 +151,14 @@ public class BoardAI : MonoBehaviour {
         newWorker.transform.SetParent(FindParentSlot(type));
         newWorker.GetComponent<WorkerIcon>().workerType = type;
         return newWorker;
+        }
+
+    Worker FindWorkerPlayer(string type) {
+        if (type == "Logistics") return GetComponent<Logistics>();
+        else if (type == "Production") return GetComponent<Production>();
+        else if (type == "Storage") return GetComponent<Storage>();
+        else if (type == "Shipping") return GetComponent<Shipping>();
+        else return null;
         }
 
     }
